@@ -11,21 +11,22 @@
     <mat-card-header class="padding-m">
       <mat-card-title>Cadastro de Usuário</mat-card-title>
     </mat-card-header>
-    <mat-card-content>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Nome Completo</mat-label>
-        <input matInput placeholder="Digite seu nome completo">
-      </mat-form-field>
-      <mat-form-field appearance="outline" class="full-width">
-        <mat-label>Email</mat-label>
-        <input matInput placeholder="Ex. email@example.com">
-      </mat-form-field>
-      <app-password-field></app-password-field>
-
-    </mat-card-content>
-    <mat-card-actions>
-      <button matButton="filled" class="full-width">Cadastrar</button>
-    </mat-card-actions>
+    <form [formGroup]="form">
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome Completo</mat-label>
+          <input matInput placeholder="Digite seu nome completo" formControlName="fullName">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Ex. email@example.com" formControlName="email">
+        </mat-form-field>
+        <app-password-field [control]="passwordControl"></app-password-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button matButton="filled" class="full-width" (click)="submit()" [disabled]="form.invalid">Cadastrar</button>
+      </mat-card-actions>
+    </form>
   </mat-card>
 
 </body>
