@@ -16,10 +16,24 @@
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nome Completo</mat-label>
           <input matInput placeholder="Digite seu nome completo" formControlName="fullName">
+          @if (form.get('fullName')?.errors?.['required']) {
+          <mat-error>O nome completo é obrigatório</mat-error>
+          }
+          @if (form.get('fullName')?.errors?.['minlength']) {
+          <mat-error>O nome tem menos de 3 caracteres</mat-error>
+          }
         </mat-form-field>
+
+
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Email</mat-label>
           <input matInput placeholder="Ex. email@example.com" formControlName="email">
+          @if (form.get('email')?.errors?.['required']) {
+          <mat-error>O Email é obrigatório</mat-error>
+          }
+          @if (form.get('email')?.errors?.['email']) {
+          <mat-error>Utilize um Email válido</mat-error>
+          }
         </mat-form-field>
         <app-password-field [control]="passwordControl"></app-password-field>
       </mat-card-content>
