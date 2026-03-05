@@ -14,10 +14,18 @@ import { MatInputModule } from '@angular/material/input';
 export class PasswordField {
   hide = signal(true);
 
+  //Input = prop   ! = non-null assetion operator(Essa propriedade vai vir em tempo de execucao)
   @Input({ required: true }) control!: FormControl;
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());
     event.stopPropagation();
+  }
+
+  get passwordErrors(): string | null {
+    const controll = this.control;
+    if (controll?.hasError('required')) return 'A senha é um campo obrigatório';
+    if (controll?.hasError('minlength')) return 'A senha deve ter pelo menos de 6 caracteres';
+    return null;
   }
 }
