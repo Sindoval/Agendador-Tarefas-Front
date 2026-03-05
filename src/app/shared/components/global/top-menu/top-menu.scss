@@ -1,0 +1,18 @@
+.top-menu {
+  display: flex;
+  justify-content: space-between;
+}
+
+.top-menu a {
+  text-decoration: none;
+  color: black;
+}
+
+.top-menu button:hover {
+  background-color: var(--mat-sys-primary);
+  color: white;
+}
+
+.img {
+  width: 2em;
+}
