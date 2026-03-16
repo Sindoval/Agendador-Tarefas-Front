@@ -1,0 +1,11 @@
+<mat-toolbar class="top-menu">
+  <span>
+    <a routerLink="/">
+      <img [src]="appLogo" alt="logo" class="img" />
+    </a>
+  </span>
+  <div>
+    <button matButton>Entrar</button>
+    <button matButton="filled" routerLink="/register" [disabled]="isOnRouterRegister()">Cadastrar</button>
+  </div>
+</mat-toolbar>

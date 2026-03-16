@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+
+<body class="register-component">
+  <mat-card>
+    <mat-card-header class="padding-m">
+      <mat-card-title>Cadastro de Usuário</mat-card-title>
+    </mat-card-header>
+    <form [formGroup]="form">
+      <mat-card-content>
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Nome Completo</mat-label>
+          <input matInput placeholder="Digite seu nome completo" formControlName="nome">
+          <mat-error>{{fullNameErrors}}</mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="outline" class="full-width">
+          <mat-label>Email</mat-label>
+          <input matInput placeholder="Ex. email@example.com" formControlName="email">
+          <mat-error>{{EmailErrors}}</mat-error>
+        </mat-form-field>
+        <app-password-field [control]="passwordControl"></app-password-field>
+      </mat-card-content>
+      <mat-card-actions>
+        <button matButton="filled" class="full-width" (click)="submit()" [disabled]="form.invalid || isLoading">
+          <span class="cad-button-content">
+            @if (isLoading) {
+            <mat-spinner diameter="20"></mat-spinner>
+            }
+            {{isLoading ? "Cadastrando..." : "Cadastrar"}}
+          </span>
+        </button>
+
+      </mat-card-actions>
+    </form>
+  </mat-card>
+
+</body>
+
+</html>
