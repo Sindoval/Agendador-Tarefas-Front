@@ -10,3 +10,12 @@ mat-card {
   width: 400px;
   padding: 20px;
 }
+
+.register-component .cad-button-content {
+  display: inline-flex;
+  align-items: center;
+
+  mat-spinner {
+    margin-right: 0.5em;
+  }
+}

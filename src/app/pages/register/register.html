@@ -15,7 +15,7 @@
       <mat-card-content>
         <mat-form-field appearance="outline" class="full-width">
           <mat-label>Nome Completo</mat-label>
-          <input matInput placeholder="Digite seu nome completo" formControlName="fullName">
+          <input matInput placeholder="Digite seu nome completo" formControlName="nome">
           <mat-error>{{fullNameErrors}}</mat-error>
         </mat-form-field>
 
@@ -28,7 +28,15 @@
         <app-password-field [control]="passwordControl"></app-password-field>
       </mat-card-content>
       <mat-card-actions>
-        <button matButton="filled" class="full-width" (click)="submit()" [disabled]="form.invalid">Cadastrar</button>
+        <button matButton="filled" class="full-width" (click)="submit()" [disabled]="form.invalid || isLoading">
+          <span class="cad-button-content">
+            @if (isLoading) {
+            <mat-spinner diameter="20"></mat-spinner>
+            }
+            {{isLoading ? "Cadastrando..." : "Cadastrar"}}
+          </span>
+        </button>
+
       </mat-card-actions>
     </form>
   </mat-card>
