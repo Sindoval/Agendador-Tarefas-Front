@@ -5,7 +5,9 @@
     </a>
   </span>
   <div>
-    <button matButton>Entrar</button>
-    <button matButton="filled" routerLink="/register" [disabled]="isOnRouterRegister()">Cadastrar</button>
+    <button matButton routerLink="/login" [disabled]="isOnRouterLogin()">Entrar
+    </button>
+    <button matButton="filled" routerLink="/register" [disabled]="isOnRouterRegister()">Cadastrar
+    </button>
   </div>
 </mat-toolbar>
