@@ -42,6 +42,11 @@ interface UserRegisterResponse {
   novoToken: string | null
 }
 
+export interface UserLoginPayload {
+  email: string
+  senha: string
+}
+
 @Injectable({
   providedIn: 'root',
 })
@@ -51,6 +56,10 @@ export class User {
   constructor(private http: HttpClient) { }
 
   register(body: UserRegisterPayload): Observable<UserRegisterResponse> {
-    return this.http.post<UserRegisterResponse>(`${this.API_URL}/usuario`, body)
+    return this.http.post<UserRegisterResponse>(`${this.API_URL}/usuario`, body);
+  }
+
+  login(body: UserLoginPayload): Observable<string> {
+    return this.http.post<string>(`${this.API_URL}/usuario/login`, body, { responseType: 'text' as 'json' });
   }
 }

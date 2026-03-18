@@ -16,6 +16,7 @@ export class PasswordField {
 
   //Input = prop   ! = non-null assetion operator(Essa propriedade vai vir em tempo de execucao)
   @Input({ required: true }) control!: FormControl;
+  @Input() placeholder: string = 'Digite sua senha';
 
   clickEvent(event: MouseEvent) {
     this.hide.set(!this.hide());

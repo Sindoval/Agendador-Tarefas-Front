@@ -32,4 +32,7 @@ export class TopMenu implements OnInit, OnDestroy {
   isOnRouterRegister(): boolean {
     return this.rotaAtual === '/register'
   }
+  isOnRouterLogin(): boolean {
+    return this.rotaAtual === '/login'
+  }
 }
