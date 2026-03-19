@@ -1,10 +1,11 @@
 import { Component, signal } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { TopMenu } from "./shared/components/global/top-menu/top-menu";
+import { Footer } from './shared/components/global/footer/footer';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, TopMenu, RouterModule],
+  imports: [RouterOutlet, TopMenu, RouterModule, Footer],
   templateUrl: './app.html',
   styleUrl: './app.scss'
 })
