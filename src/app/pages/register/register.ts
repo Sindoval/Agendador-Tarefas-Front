@@ -10,6 +10,7 @@ import { User } from '../../services/user';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Router } from '@angular/router';
 import { finalize } from 'rxjs';
+import { Auth } from '../../services/auth';
 
 @Component({
   selector: 'app-register',
@@ -35,13 +36,20 @@ export class Register {
     private formBuilder: FormBuilder,
     private UserService: User,
     private router: Router,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: Auth
   ) {
     this.form = this.formBuilder.group({
       nome: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
       senha: ['', [Validators.required, Validators.minLength(6)]]
     });
+  }
+
+  ngOnInit(): void {
+    if (this.authService.isLoggedIn()) {
+      this.router.navigate(['/tasks']);
+    }
   }
 
   get passwordControl(): FormControl {
@@ -54,6 +62,7 @@ export class Register {
     if (controll?.hasError('minlength')) return 'O nome tem menos de 3 caracteres';
     return null;
   }
+
   get EmailErrors(): string | null {
     const controll = this.form.get('email');
     if (controll?.hasError('required')) return 'O email é um campo obrigatório';

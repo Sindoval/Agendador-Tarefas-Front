@@ -4,10 +4,20 @@
       <img [src]="appLogo" alt="logo" class="img" />
     </a>
   </span>
+  @if (!isLogged) {
   <div>
     <button matButton routerLink="/login" [disabled]="isOnRouterLogin()">Entrar
     </button>
     <button matButton="filled" routerLink="/register" [disabled]="isOnRouterRegister()">Cadastrar
     </button>
   </div>
+  }
+  @if (isLogged) {
+  <div mat-card-avatar class="avatar-usuario" [matMenuTriggerFor]="menu">{{getInitialUser()}}</div>
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>Perfil</button>
+    <button mat-menu-item (click)="logout()">Sair</button>
+  </mat-menu>
+  }
+
 </mat-toolbar>
