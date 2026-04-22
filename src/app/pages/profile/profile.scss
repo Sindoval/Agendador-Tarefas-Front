@@ -1,0 +1,23 @@
+.profile-component {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+
+  .header {
+    padding: 0 1rem;
+
+    .titulo {
+      padding-bottom: 1rem;
+    }
+  }
+
+  .item-wrapper {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  h3 {
+    margin-bottom: 1em;
+  }
+}
