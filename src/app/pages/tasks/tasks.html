@@ -12,10 +12,12 @@
   @else {
   @for(task of tasks(); track task.id) {
   <mat-accordion class="tasks-accordion full-width">
-    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)">
+    <mat-expansion-panel class="tasks-expansion-panel" (opened)="panelOpenState.set(true)"
+      (closed)="panelOpenState.set(false)">
       <mat-expansion-panel-header>
         <mat-panel-title [matTooltip]="task.nomeTarefa">{{task.nomeTarefa}} </mat-panel-title>
         <mat-panel-description>
+          <mat-icon>calendar_month</mat-icon>
           {{task.dataEvento}}
         </mat-panel-description>
         <button class="action-button" matIconButton matSuffix (click)="editarTarefa(task)">
