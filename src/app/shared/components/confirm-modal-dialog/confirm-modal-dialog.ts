@@ -1,14 +1,14 @@
-import { Component, inject, ChangeDetectionStrategy } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import { FormControl, FormGroup, FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
+import { provideNativeDateAdapter } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle, MatDialogModule } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogModule, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
 import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInput, MatInputModule } from '@angular/material/input';
 import { MatTimepickerModule } from '@angular/material/timepicker';
-import { provideNativeDateAdapter } from '@angular/material/core';
-
+import { ModalDialog } from '../modal-dialog/modal-dialog';
 
 export interface DialogField {
   name: string
@@ -21,11 +21,13 @@ export interface DialogField {
 
 interface DialogData {
   title: string
-  formConfig: DialogField[]
+  message: string
+  confirmButton: string
+  cancelButton: string
 }
 
 @Component({
-  selector: 'app-modal-dialog',
+  selector: 'app-confirm-modal-dialog',
   providers: [provideNativeDateAdapter()],
   imports: [
     MatDialogModule,
@@ -44,33 +46,18 @@ interface DialogData {
     FormsModule
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './modal-dialog.html',
-  styleUrl: './modal-dialog.scss',
+  templateUrl: './confirm-modal-dialog.html',
+  styleUrl: './confirm-modal-dialog.scss',
 })
-export class ModalDialog {
-  readonly formBuilder = inject(FormBuilder)
+export class ConfirmModalDialog {
   readonly dialogRef = inject(MatDialogRef<ModalDialog>);
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
-
-  fields: DialogField[] = this.data.formConfig ?? [];
-
-  private buildControls(): Record<string, any> {
-    const controls: Record<string, any> = {}
-
-    this.fields.forEach(field => {
-      controls[field.name] = new FormControl(field.value ?? '', field.validators || [])
-    })
-
-    return controls;
-  }
-
-  form: FormGroup = this.formBuilder.group(this.buildControls())
 
   onCancel(): void {
     this.dialogRef.close();
   }
 
   onSave(): void {
-    this.dialogRef.close(this.form.value);
+    this.dialogRef.close(this.data);
   }
 }

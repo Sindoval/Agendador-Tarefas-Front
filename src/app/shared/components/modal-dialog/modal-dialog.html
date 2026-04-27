@@ -2,6 +2,25 @@
 <mat-dialog-content>
   <form [formGroup]="form">
     @for (field of fields; track field.name) {
+    @if(field.type === 'date') {
+    <mat-form-field class="full-width">
+      <mat-label>{{field.label}}</mat-label>
+      <input matInput [matDatepicker]="datepicker" [formControlName]="field.name">
+      <mat-datepicker #datepicker />
+      <mat-datepicker-toggle [for]="datepicker" matSuffix />
+    </mat-form-field>
+    }
+
+    @if(field.type === 'time') {
+    <mat-form-field class="full-width">
+      <mat-label>{{field.label}}</mat-label>
+      <input matInput [matTimepicker]="timepicker" [formControlName]="field.name">
+      <mat-timepicker #timepicker />
+      <mat-timepicker-toggle [for]="timepicker" matSuffix />
+    </mat-form-field>
+    }
+
+    @if(!field.type || field.type === 'text' || field.type === 'number') {
     <mat-form-field class="full-width">
       <mat-label>{{field.label}}</mat-label>
       <input matInput [formControlName]="field.name" />
@@ -11,6 +30,8 @@
       </button>
       }
     </mat-form-field>
+    }
+
     }
 
 
