@@ -1,0 +1,36 @@
+<section class="tasks-component">
+
+  @if(!hasTasks()) {
+  <mat-card class="tasks-card">
+    <mat-card-content class="tasks-content">
+      <h2> 📋 Minhas Tarefas</h2>
+      <p>Você ainda não tem tarefas criadas. Comece criando sua primeria tarefa</p>
+      <button class="btn" matButton="filled" (click)="cadastrarTarefa()">+ Cadastrar Tarefa</button>
+    </mat-card-content>
+  </mat-card>
+  }
+  @else {
+  @for(task of tasks(); track task.id) {
+  <mat-accordion class="tasks-accordion full-width">
+    <mat-expansion-panel class="tasks-expansion-panel" (opened)="panelOpenState.set(true)"
+      (closed)="panelOpenState.set(false)">
+      <mat-expansion-panel-header>
+        <mat-panel-title [matTooltip]="task.nomeTarefa">{{task.nomeTarefa}} </mat-panel-title>
+        <mat-panel-description>
+          <mat-icon>calendar_month</mat-icon>
+          {{task.dataEvento}}
+        </mat-panel-description>
+        <button class="action-button" matIconButton matSuffix (click)="editarTarefa(task)">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button class="action-button" matIconButton matSuffix (click)="deletarTarefa(task.id)">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </mat-expansion-panel-header>
+      <p>{{task.descricao}}</p>
+    </mat-expansion-panel>
+  </mat-accordion>
+  }
+  <button class="btn" matButton="filled" (click)="cadastrarTarefa()">+ Cadastrar Nova Tarefa</button>
+  }
+</section>

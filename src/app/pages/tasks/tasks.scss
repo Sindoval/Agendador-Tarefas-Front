@@ -1,0 +1,48 @@
+.tasks-component {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+
+  .tasks-card {
+    max-width: 480px;
+    width: 100%;
+  }
+
+  .tasks-content {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+
+    p {
+      font-size: 1rem;
+      font-weight: 400;
+      line-height: 1.5;
+    }
+  }
+
+  .tasks-accordion {
+    margin: 0.5em;
+    width: 60vw;
+    max-width: 50em;
+    min-width: 25em;
+  }
+
+  .btn {
+    margin-top: 1em;
+  }
+
+  mat-panel-title {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+  }
+
+  .action-button {
+    margin-right: 1%;
+  }
+}

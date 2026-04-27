@@ -1,0 +1,20 @@
+.login-component {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+
+  mat-card {
+    width: 400px;
+    padding: 20px;
+  }
+
+  .cad-button-content {
+    display: inline-flex;
+    align-items: center;
+
+    mat-spinner {
+      margin-right: 0.5em;
+    }
+  }
+}

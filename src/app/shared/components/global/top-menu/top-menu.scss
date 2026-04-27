@@ -1,0 +1,31 @@
+.top-menu {
+  display: flex;
+  justify-content: space-between;
+  background-color: var(--mat-sys-surface)
+}
+
+.top-menu a {
+  text-decoration: none;
+  color: black;
+}
+
+.top-menu button:hover {
+  color: white;
+}
+
+.img {
+  width: 2em;
+}
+
+.avatar-usuario {
+  background-color: var(--mat-sys-primary);
+  color: white;
+  font-weight: 600;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+}

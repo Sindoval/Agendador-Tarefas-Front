@@ -1,0 +1,184 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { Injectable, signal } from '@angular/core';
+import { Observable, switchMap, tap } from 'rxjs';
+import { JwtHelperService } from '@auth0/angular-jwt'
+import { Auth } from './auth';
+
+interface UserRegisterPayload {
+  nome: string
+  email: string
+  senha: string
+  enderecos?: [{
+    rua: string,
+    numero: number,
+    complemento: string,
+    cidade: string,
+    estado: string,
+    cep: string
+  }],
+  telefones?: [
+    {
+      numero: string
+      ddd: string
+    }]
+}
+
+export interface UserResponse {
+  nome: string,
+  email: string,
+  senha: string,
+  enderecos: {
+    id: number,
+    rua: string,
+    numero: number,
+    complemento: string,
+    cidade: string,
+    estado: string,
+    cep: string
+  }[] | null,
+  telefones:
+  {
+    id: number,
+    numero: string,
+    ddd: string
+  }[] | null,
+  emailAnterior: string | null,
+  novoToken: string | null
+}
+
+export interface TelefoneResponse {
+  id: number
+  numero: string
+  ddd: string
+}
+
+export interface EnderecoResponse {
+  id: number
+  rua: string,
+  numero: number,
+  complemento: string,
+  cidade: string,
+  estado: string,
+  cep: string
+}
+
+export interface UserLoginPayload {
+  email: string
+  senha: string
+}
+
+@Injectable({
+  providedIn: 'root',
+})
+export class User {
+  private API_URL = 'http://localhost:8084';  //TODO: add .ENV
+  private jwtHelper = new JwtHelperService;
+
+  private _user = signal<UserResponse | null>(null);
+  readonly user = this._user.asReadonly();
+
+  constructor(private http: HttpClient, private authService: Auth) {
+    const usuarioSalvo = this.authService.getUser();
+    if (usuarioSalvo) {
+      this.setUser(usuarioSalvo);
+    }
+  }
+
+  register(body: UserRegisterPayload): Observable<UserResponse> {
+    return this.http.post<UserResponse>(`${this.API_URL}/usuario`, body);
+  }
+
+  login(body: UserLoginPayload): Observable<string> {
+    return this.http.post<string>(`${this.API_URL}/usuario/login`, body, { responseType: 'text' as 'json' });
+  }
+
+  getEmailFromToken(token: string): string | null {
+    try {
+      const decoded = this.jwtHelper.decodeToken(token);
+      return decoded?.sub;
+    } catch (error) {
+      return null
+    }
+  }
+
+  getUserByEmail(token: string) {
+    const email = this.getEmailFromToken(token);
+    if (!email) throw new Error('Token inválido!');
+
+    const headers = new HttpHeaders({ Authorization: `${token}` })
+    return this.http.get<UserResponse>(`${this.API_URL}/usuario?email=${email}`, { headers });
+  }
+
+  getUser(): UserResponse | null {
+    return this.user();
+  }
+  setUser(data: UserResponse | null): void {
+    this._user.set(data);
+  }
+
+  saveEndereco(body: {
+    rua: string,
+    numero: number,
+    complemento: string,
+    cidade: string,
+    estado: string,
+    cep: string
+  }, token: string): Observable<any> {
+    const headers = new HttpHeaders({ Authorization: `${token}` });
+
+    return this.http.post<EnderecoResponse>(`${this.API_URL}/usuario/endereco`, body, { headers }).pipe(
+      switchMap(() => this.getUserByEmail(token)),
+      tap(user => {
+        this.setUser(user);
+        this.authService.saveUser(user);
+      })
+    )
+  }
+
+  searchEnderecoByCep(cep: string): Observable<any> {
+    return this.http.get<any>(`${this.API_URL}/usuario/endereco/${cep}`)
+  }
+
+  saveTelefone(body: { numero: string, ddd: string }, token: string): Observable<any> {
+    const headers = new HttpHeaders({ Authorization: `${token}` });
+
+    return this.http.post<TelefoneResponse>(`${this.API_URL}/usuario/telefone`, body, { headers }).pipe(
+      switchMap(() => this.getUserByEmail(token)),
+      tap(user => {
+        this.setUser(user);
+        this.authService.saveUser(user);
+      })
+    )
+  }
+
+  updateEndereco(id: number, body: {
+    rua: string,
+    numero: number,
+    complemento: string,
+    cidade: string,
+    estado: string,
+    cep: string
+  }, token: string): Observable<any> {
+    const headers = new HttpHeaders({ Authorization: `${token}` });
+
+    return this.http.put<EnderecoResponse>(`${this.API_URL}/usuario/endereco?id=${id}`, body, { headers }).pipe(
+      switchMap(() => this.getUserByEmail(token)),
+      tap(user => {
+        this.setUser(user);
+        this.authService.saveUser(user);
+      })
+    )
+  }
+
+  updateTelefone(id: number, body: { numero: string, ddd: string }, token: string): Observable<any> {
+    const headers = new HttpHeaders({ Authorization: `${token}` });
+
+    return this.http.put<TelefoneResponse>(`${this.API_URL}/usuario/telefone?id=${id}`, body, { headers }).pipe(
+      switchMap(() => this.getUserByEmail(token)),
+      tap(user => {
+        this.setUser(user);
+        this.authService.saveUser(user);
+      })
+    )
+  }
+}

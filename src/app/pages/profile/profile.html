@@ -1,0 +1,57 @@
+<mat-card class="profile-component" appearance="raised">
+  <mat-card-header class="header">
+    <mat-card-title class="titulo">Meus dados</mat-card-title>
+  </mat-card-header>
+  <form [formGroup]="form">
+    <mat-form-field class="full-width">
+      <mat-label>Nome</mat-label>
+      <input matInput formControlName="nome">
+    </mat-form-field>
+    <mat-form-field class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput formControlName="email">
+    </mat-form-field>
+  </form>
+  <mat-card-content>
+    <h3>Endereços</h3>
+    <button mat-flat-button (click)="cadastrarEndereco()">Adicionar Endereço</button>
+    <mat-list>
+      @for (endereco of user()?.enderecos; track endereco.id) {
+      <div class="item-wrapper">
+        <mat-list-item [matTooltip]="`
+        ${endereco.rua} N°: ${endereco.numero},
+        ${endereco.complemento ? `${endereco.complemento},` : ''}
+        ${endereco.cidade},
+        ${endereco.estado},
+        ${endereco.cep}
+        `">
+          {{endereco.rua}} N°: {{endereco.numero}},
+          @if(endereco.complemento) {
+          <span>{{endereco.complemento}}</span>}
+          {{endereco.cidade}}-{{endereco.estado}},
+          {{endereco.cep}}
+        </mat-list-item>
+        <button matIconButton (click)="editarEndereco(endereco)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      }
+
+    </mat-list>
+    <h3>Telefones</h3>
+    <mat-list>
+      @for (telefone of user()?.telefones ?? []; track telefone.numero) {
+      <div class="item-wrapper">
+        <mat-list-item>
+          ({{telefone.ddd}}) {{telefone.numero}}
+        </mat-list-item>
+        <button matIconButton (click)="editarTelefone(telefone)">
+          <mat-icon>edit</mat-icon>
+        </button>
+      </div>
+      }
+    </mat-list>
+
+    <button mat-flat-button (click)="cadastrarTelefone()">Adicionar Telefone</button>
+  </mat-card-content>
+</mat-card>
