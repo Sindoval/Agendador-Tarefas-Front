@@ -71,7 +71,7 @@ export interface UserLoginPayload {
   providedIn: 'root',
 })
 export class User {
-  private API_URL = 'http://localhost:8084';
+  private API_URL = 'http://localhost:8084';  //TODO: add .ENV
   private jwtHelper = new JwtHelperService;
 
   private _user = signal<UserResponse | null>(null);
